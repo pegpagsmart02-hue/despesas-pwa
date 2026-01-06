@@ -1,9 +1,94 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="pt-br">
 <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Despesas PWA</title>
+
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <meta name="theme-color" content="#111827" />
+
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; max-width: 820px; }
+    h1 { margin: 0 0 12px; }
+    .card { border: 1px solid #ddd; border-radius: 10px; padding: 14px; margin: 12px 0; }
+    label { display:block; font-weight: 600; margin: 10px 0 6px; }
+    input, select, button { padding: 10px; width: 100%; box-sizing: border-box; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    button { cursor: pointer; border: 0; border-radius: 8px; background: #111827; color: #fff; font-weight: 700; }
+    button.secondary { background: #6b7280; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px; border-bottom: 1px solid #eee; text-align: left; }
+    .muted { color: #6b7280; font-size: 0.95rem; }
+    .total { font-size: 1.2rem; font-weight: 800; }
+  </style>
+
+  <script defer src="./db.js"></script>
+  <script defer src="./app.js"></script>
 </head>
+
 <body>
   <h1>App de Despesas</h1>
+  <div class="muted">Salva no navegador (LocalStorage). Depois a gente evolui para banco/backup se quiser.</div>
+
+  <div class="card">
+    <form id="form">
+      <label for="desc">Descrição</label>
+      <input id="desc" required placeholder="Ex: Mercado, combustível, internet..." />
+
+      <div class="row">
+        <div>
+          <label for="valor">Valor (R$)</label>
+          <input id="valor" required inputmode="decimal" placeholder="Ex: 25,90" />
+        </div>
+        <div>
+          <label for="data">Data</label>
+          <input id="data" type="date" required />
+        </div>
+      </div>
+
+      <label for="cat">Categoria</label>
+      <select id="cat">
+        <option>Alimentação</option>
+        <option>Transporte</option>
+        <option>Moradia</option>
+        <option>Saúde</option>
+        <option>Lazer</option>
+        <option>Outros</option>
+      </select>
+
+      <div class="row" style="margin-top:12px;">
+        <button type="submit">Adicionar</button>
+        <button type="button" id="limpar" class="secondary">Limpar tudo</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card">
+    <div class="row" style="align-items:end;">
+      <div>
+        <label for="filtroMes">Filtrar mês</label>
+        <input id="filtroMes" type="month" />
+      </div>
+      <div class="total" id="total">Total: R$ 0,00</div>
+    </div>
+
+    <div style="margin-top:12px; overflow:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Descrição</th>
+            <th>Categoria</th>
+            <th>Valor</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="lista">
+          <tr><td colspan="5" class="muted">Nenhuma despesa ainda.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </body>
 </html>

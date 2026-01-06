@@ -1,1 +1,8 @@
-manifest.webmanifest
+{
+  "name": "Despesas PWA",
+  "short_name": "Despesas",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#111827"
+}
